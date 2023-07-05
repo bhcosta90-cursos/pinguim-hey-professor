@@ -34,6 +34,9 @@ jobs:
       run: npm run build
 
     - name: Execute tests (Unit and Feature tests) via PEST
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
       run: php artisan test --parallel --processes=10
 
     - name: Execute Larastan
