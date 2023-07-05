@@ -11,7 +11,7 @@ class QuestionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'question' => ['required', 'min:10', new EndWithQuestionMarkRule],
+            'question' => ['required', 'min:10', new EndWithQuestionMarkRule()],
         ]);
 
         Question::query()->create([

@@ -18,7 +18,7 @@ class EndWithQuestionMarkRule implements ValidationRule
             $fail(__(
                 "Are you sure that is a question? It's missing the question mark in the end at attribute :attribute",
                 [
-                    'attribute' => $attribute
+                    'attribute' => $attribute,
                 ]
             ));
         }
