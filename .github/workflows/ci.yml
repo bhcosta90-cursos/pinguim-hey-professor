@@ -36,7 +36,7 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PEST
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+        DB_DATABASE: ':memory:'
       run: php artisan test --parallel --processes=10
 
     - name: Execute Larastan
