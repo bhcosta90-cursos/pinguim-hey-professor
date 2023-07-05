@@ -15,5 +15,5 @@ test("should be able to publish question", function () {
 
     $question->refresh();
 
-    // expect($question->draft)->toBeFalse();
+    expect($question->draft)->toBeFalse();
 });
