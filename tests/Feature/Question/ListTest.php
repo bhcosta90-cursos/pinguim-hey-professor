@@ -8,7 +8,7 @@ test("should list all the questions", function () {
     $user = User::factory()->create();
     actingAs($user);
 
-    $questions = Question::factory(10)->create();
+    $questions = Question::factory(10)->for($user, "createdBy")->create();
 
     $response = get(route('dashboard'));
 
