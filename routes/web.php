@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, QuestionController};
+use App\Http\Controllers\Question;
+use App\Http\Controllers\{DashboardController, ProfileController};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     if (app()->isLocal()) {
-        auth()->loginUsingId(1);
+        auth()->loginUsingId($request->user ?: 1);
 
         return to_route('dashboard');
     }
@@ -24,11 +26,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('question/store', [QuestionController::class, 'store'])->name('question.store');
+Route::post('question/store', Question\StoreController::class)->name('question.store');
+Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
+Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
