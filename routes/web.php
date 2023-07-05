@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('questions', Question\QuestionController::class)->name('question.index');
     Route::get('question/{question}', Question\LikeController::class)->name('question.edit');
     Route::post('question/store', Question\StoreController::class)->name('question.store');
-    Route::delete('question/{question}', Question\LikeController::class)->name('question.destroy');
+    Route::delete('question/{question}', Question\DestroyController::class)->name('question.destroy');
     Route::post('question/{question}/archive', Question\ArchiveController::class)->name('question.archive');
     Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
     Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
