@@ -28,12 +28,15 @@ Route::get('/', function (Request $request) {
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('question/store', Question\StoreController::class)->name('question.store');
-Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
-Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
-Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');
-
 Route::middleware('auth')->group(function () {
+    Route::get('questions', Question\QuestionController::class)->name('question.index');
+    Route::get('question/{question}', Question\LikeController::class)->name('question.edit');
+    Route::post('question/store', Question\StoreController::class)->name('question.store');
+    Route::delete('question/{question}', Question\LikeController::class)->name('question.destroy');
+    Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
+    Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
+    Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

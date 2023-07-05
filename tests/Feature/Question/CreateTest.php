@@ -12,7 +12,7 @@ test('should be a create a new question bigger than 255 characters', function ()
         'question' => str_repeat('*', 265) . '?',
     ]);
 
-    $response->assertRedirect(route('dashboard'));
+    $response->assertRedirect();
     $this->assertDatabaseCount('questions', 1);
     $this->assertDatabaseHas('questions', [
         'question' => str_repeat('*', 265) . '?',

@@ -19,6 +19,6 @@ class StoreController extends Controller
             'draft' => true,
         ]);
 
-        return to_route('dashboard');
+        return back();
     }
 }
