@@ -31,6 +31,7 @@ Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verif
 Route::post('question/store', Question\StoreController::class)->name('question.store');
 Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
 Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
+Route::put('question/{question}/publish', Question\UnlikeController::class)->name('question.publish');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
