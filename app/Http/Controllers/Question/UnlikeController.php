@@ -13,11 +13,7 @@ class UnlikeController extends Controller
      */
     public function __invoke(Request $request, Question $question): RedirectResponse
     {
-        $question->votes()->create([
-            'user_id' => $request->user()->id,
-            'like' => false,
-            'unlike' => true,
-        ]);
+        $request->user()->unlike($question);
 
         return back();
     }

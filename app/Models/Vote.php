@@ -10,6 +10,7 @@ class Vote extends Model
     use HasFactory;
 
     protected $fillable = [
+        'question_id',
         'user_id',
         'like',
         'unlike',

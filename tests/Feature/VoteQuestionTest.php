@@ -11,7 +11,8 @@ test("should be able to like a question", function () {
 
     actingAs($user);
 
-    post(route('question.like', $question));
+    post(route('question.like', $question))
+        ->assertRedirect();
 
     assertDatabaseHas('votes', [
         'question_id' => $question->id,
@@ -28,7 +29,8 @@ test("should be able to unlike a question", function () {
 
     actingAs($user);
 
-    post(route('question.unlike', $question));
+    post(route('question.unlike', $question))
+        ->assertRedirect();
 
     assertDatabaseHas('votes', [
         'question_id' => $question->id,
