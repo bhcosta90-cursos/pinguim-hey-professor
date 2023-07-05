@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Question;
 
+use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Rules\EndWithQuestionMarkRule;
 use Illuminate\Http\{RedirectResponse, Request};
 
-class QuestionController extends Controller
+class StoreController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function __invoke(Request $request): RedirectResponse
     {
         $request->validate([
             'question' => ['required', 'min:10', new EndWithQuestionMarkRule()],
