@@ -19,12 +19,12 @@ class Question extends Model
 
     public function likes(): Attribute
     {
-        return new Attribute(get: fn () => $this->votes()->sum('like'));
+        return new Attribute(get: fn () => $this->votes->sum('like'));
     }
 
     public function unlikes(): Attribute
     {
-        return new Attribute(get: fn () => $this->votes()->sum('unlike'));
+        return new Attribute(get: fn () => $this->votes->sum('unlike'));
     }
 
     public function votes(): HasMany
