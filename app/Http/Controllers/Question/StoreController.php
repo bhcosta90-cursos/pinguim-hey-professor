@@ -17,7 +17,7 @@ class StoreController extends Controller
 
         Question::query()->create([
             'question' => $request->question,
-            'draft' => false,
+            'draft' => true,
         ]);
 
         return to_route('dashboard');

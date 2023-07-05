@@ -63,6 +63,6 @@ test('should be a create a new question with draft all the time', function () {
 
     $this->assertDatabaseHas('questions', [
         'question' => str_repeat('*', 265) . '?',
-        'draft' => false,
+        'draft' => true,
     ]);
 });
