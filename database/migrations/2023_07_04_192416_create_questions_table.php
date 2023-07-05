@@ -13,6 +13,7 @@ return new class () extends Migration {
         Schema::create('questions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('question');
+            $table->boolean('draft')->default(false);
             $table->timestamps();
         });
     }

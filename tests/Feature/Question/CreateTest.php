@@ -52,3 +52,17 @@ test("should have a least 10 characters", function () {
 
     $this->assertDatabaseCount('questions', 0);
 });
+
+test('should be a create a new question with draft all the time', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    post(route('question.store'), [
+        'question' => str_repeat('*', 265) . '?',
+    ]);
+
+    $this->assertDatabaseHas('questions', [
+        'question' => str_repeat('*', 265) . '?',
+        'draft' => false,
+    ]);
+});
