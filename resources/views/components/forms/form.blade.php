@@ -1,10 +1,11 @@
 @props([
     'action',
+    'id' => null,
     'put' => null,
     'delete' => null,
 ])
 
-<form method="POST" action="{{route('question.store')}}">
+<form method="POST" action="{{$action}}" id="{{$id}}">
     @csrf
 
     @if($put)

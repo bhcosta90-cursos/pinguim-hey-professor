@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Question;
 use App\Http\Controllers\{DashboardController, ProfileController};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     if (app()->isLocal()) {
-        auth()->loginUsingId(1);
+        auth()->loginUsingId($request->user ?: 1);
 
         return to_route('dashboard');
     }
