@@ -3,19 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use Closure;
-use Illuminate\Http\{RedirectResponse, Request, Response};
+use App\Rules\EndWithQuestionMarkRule;
+use Illuminate\Http\{RedirectResponse, Request};
 
 class QuestionController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'question' => ['required', 'min:10', function (string $attribute, string $value, Closure $fail) {
-                if (substr($value, -1) != '?') {
-                    $fail("Are you sure that is a question? It's missing the question mark in the end");
-                }
-            }],
+            'question' => ['required', 'min:10', new EndWithQuestionMarkRule],
         ]);
 
         Question::query()->create([

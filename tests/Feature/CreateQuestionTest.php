@@ -28,8 +28,14 @@ test("should check if end with question mark ?", function () {
     ]);
 
     $response->assertSessionHasErrors([
-        'question' => "Are you sure that is a question? It's missing the question mark in the end"])
-    ->assertRedirect();
+        'question' => __(
+            "Are you sure that is a question? It's missing the question mark in the end at attribute :attribute",
+            [
+                'attribute' => "question",
+            ]
+        ),
+    ])
+        ->assertRedirect();
 
     $this->assertDatabaseCount('questions', 0);
 });
