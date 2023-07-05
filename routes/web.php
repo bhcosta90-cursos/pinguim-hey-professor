@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('question/{question}', Question\LikeController::class)->name('question.edit');
     Route::post('question/store', Question\StoreController::class)->name('question.store');
     Route::delete('question/{question}', Question\LikeController::class)->name('question.destroy');
+    Route::post('question/{question}/archive', Question\ArchiveController::class)->name('question.archive');
     Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
     Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
     Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');
