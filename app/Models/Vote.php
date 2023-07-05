@@ -15,4 +15,9 @@ class Vote extends Model
         'like',
         'unlike',
     ];
+
+    protected $casts = [
+        'like' => 'bool',
+        'unlike' => 'bool',
+    ];
 }

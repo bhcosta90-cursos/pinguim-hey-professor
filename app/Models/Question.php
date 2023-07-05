@@ -15,6 +15,11 @@ class Question extends Model
 
     protected $fillable = [
         'question',
+        'draft',
+    ];
+
+    protected $casts = [
+        'draft' => 'bool',
     ];
 
     public function likes(): Attribute
