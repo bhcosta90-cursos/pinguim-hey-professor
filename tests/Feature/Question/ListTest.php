@@ -34,3 +34,27 @@ test("should paginate the result", function () {
             return $value instanceof LengthAwarePaginator;
         });
 });
+
+todo('should order by like and unlike, most liked question should be at the top, most unliked questions should be in the bottom', function () {
+    $user = User::factory()->create();
+    $secondUser = User::factory()->create();
+    $questions = Question::factory(5)->create();
+
+    $mostLikedQuestion = $questions[2];
+    $user->like($mostLikedQuestion);
+
+    $mostUnlikedQuestion = $questions[1];
+    $secondUser->unlike($mostUnlikedQuestion);
+
+    actingAs($user);
+    get(route('dashboard'))
+        ->assertViewHas('questions', function ($questions) {
+
+            expect($questions)
+                ->first()->id->toBe($questions[2]->id)
+                ->and($questions)
+                ->last()->id->toBe($questions[1]->id);
+
+            return true;
+        });
+});
