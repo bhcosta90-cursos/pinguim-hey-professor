@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Question;
+use App\Http\Controllers\{DashboardController, ProfileController, QuestionController};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,18 +16,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
+    if (app()->isLocal()) {
+        auth()->loginUsingId($request->user ?: 1);
+
+        return to_route('dashboard');
+    }
+
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::prefix('question/{question}/')->group(function () {
+        Route::patch('archive', [QuestionController::class, 'archive'])->name('question.archive');
+        Route::patch('restore', [QuestionController::class, 'restore'])->name('question.restore');
+        Route::post('like', Question\LikeController::class)->name('question.like');
+        Route::post('unlike', Question\UnlikeController::class)->name('question.unlike');
+        Route::put('publish', Question\PublishController::class)->name('question.publish');
+    });
+    Route::resource('question', QuestionController::class);
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

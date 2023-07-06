@@ -1,17 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <x-header>{{ __('Dashboard') }}</x-header>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+    <x-container>
+        <div class="dark:text-gray-300 uppercase font-bold">List of questions</div>
+        <div class="dark:text-gray-400 space-y-4">
+            <form action="{{ route('dashboard') }}" method="get" class="flex items-center space-x-2">
+                <x-text-input type="text" name="search" value="{{ request()->search }}" class="w-full"/>
+                <x-btn.primary type="submit">Search</x-btn.primary>
+            </form>
+
+            @foreach($questions as $item)
+                <x-question :question="$item" />
+            @endforeach
+
+            {!! $questions->appends(request()->except('_token'))->links() !!}
         </div>
-    </div>
+
+    </x-container>
 </x-app-layout>

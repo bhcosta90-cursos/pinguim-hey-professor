@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +45,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function like(Question $question): Vote
+    {
+        return $this->votes()->updateOrCreate([
+            'question_id' => $question->id,
+        ], [
+            'like' => true,
+            'unlike' => false,
+        ]);
+    }
+
+    public function unlike(Question $question): Vote
+    {
+        return $this->votes()->updateOrCreate([
+            'question_id' => $question->id,
+        ], [
+            'like' => false,
+            'unlike' => true,
+        ]);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class, 'created_by');
+    }
+
+    protected function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
+    }
 }
