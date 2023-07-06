@@ -26,22 +26,12 @@ Route::get('/', function (Request $request) {
     return view('welcome');
 });
 
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    // Route::get('questions', Question\QuestionController::class)->name('question.index');
-    // Route::get('question/{question}/edit', Question\EditController::class)->name('question.edit');
-
-    // Route::post('question/store', Question\StoreController::class)->name('question.store');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('question/{question}/archive', Question\ArchiveController::class)->name('question.archive');
     Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
     Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
-
-    // Route::put('question/{question}/update', Question\PublishController::class)->name('question.update');
     Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');
-
-    // Route::delete('question/{question}', Question\DestroyController::class)->name('question.destroy');
-
     Route::resource('question', QuestionController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
