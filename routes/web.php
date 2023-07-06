@@ -28,11 +28,13 @@ Route::get('/', function (Request $request) {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::patch('question/{question}/archive', [QuestionController::class, 'archive'])->name('question.archive');
-    Route::patch('question/{question}/restore', [QuestionController::class, 'restore'])->name('question.restore');
-    Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
-    Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
-    Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');
+    Route::prefix('question/{question}/')->group(function () {
+        Route::patch('archive', [QuestionController::class, 'archive'])->name('question.archive');
+        Route::patch('restore', [QuestionController::class, 'restore'])->name('question.restore');
+        Route::post('like', Question\LikeController::class)->name('question.like');
+        Route::post('unlike', Question\UnlikeController::class)->name('question.unlike');
+        Route::put('publish', Question\PublishController::class)->name('question.publish');
+    });
     Route::resource('question', QuestionController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
