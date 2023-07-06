@@ -7,7 +7,7 @@ use function Pest\Laravel\{actingAs, get};
 
 test("should list all the questions", function () {
     $user = User::factory()->create();
-    $questions = Question::factory()->count(5)->create();
+    $questions = Question::factory()->count(5)->create(['draft' => false]);
 
     actingAs($user);
 
@@ -25,7 +25,7 @@ test("should paginate the result", function () {
     $user = User::factory()->create();
     Question::factory()->for($user, 'createdBy')
         ->count(20)
-        ->create();
+        ->create(['draft' => false]);
 
     actingAs($user);
 
@@ -38,7 +38,7 @@ test("should paginate the result", function () {
 test('should order by like and unlike, most liked question should be at the top, most unliked questions should be in the bottom', function () {
     $user = User::factory()->create();
     $secondUser = User::factory()->create();
-    $questions = Question::factory(5)->create();
+    $questions = Question::factory(5)->create(['draft' => false]);
 
     $mostLikedQuestion = $questions[2];
     $user->like($mostLikedQuestion);
