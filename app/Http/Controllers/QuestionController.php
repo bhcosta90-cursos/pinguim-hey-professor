@@ -16,6 +16,7 @@ class QuestionController extends Controller
     {
         return view('question.index', [
             'questions' => $request->user()->questions,
+            'archivedQuestions' => $request->user()->questions()->onlyTrashed()->get(),
         ]);
     }
 
@@ -64,13 +65,33 @@ class QuestionController extends Controller
         return to_route('question.index');
     }
 
+    public function archive(Question $question): RedirectResponse
+    {
+        $this->authorize('archive', $question);
+
+        $question->delete();
+
+        return back();
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $question = Question::withTrashed()->find($id);
+
+        $this->authorize('restore', $question);
+
+        $question->restore();
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('delete', $question);
-        $question->delete();
+        $question->forceDelete();
 
         return back();
     }

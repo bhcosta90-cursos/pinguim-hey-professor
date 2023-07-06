@@ -28,7 +28,8 @@ Route::get('/', function (Request $request) {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::post('question/{question}/archive', Question\ArchiveController::class)->name('question.archive');
+    Route::patch('question/{question}/archive', [QuestionController::class, 'archive'])->name('question.archive');
+    Route::patch('question/{question}/restore', [QuestionController::class, 'restore'])->name('question.restore');
     Route::post('question/{question}/like', Question\LikeController::class)->name('question.like');
     Route::post('question/{question}/unlike', Question\UnlikeController::class)->name('question.unlike');
     Route::put('question/{question}/publish', Question\PublishController::class)->name('question.publish');

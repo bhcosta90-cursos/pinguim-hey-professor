@@ -11,6 +11,7 @@ class DashboardController extends Controller
     {
         return view('dashboard', [
             'questions' => Question::with(['votes'])
+                ->where('draft', false)
                 ->withSum('votes', 'like')
                 ->withSum('votes', 'unlike')
                 ->orderByRaw('

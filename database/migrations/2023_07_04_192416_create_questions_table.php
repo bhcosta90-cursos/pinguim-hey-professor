@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->text('question');
             $table->boolean('draft')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
