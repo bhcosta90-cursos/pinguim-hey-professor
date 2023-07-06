@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\{Question, User};
 
 use function Pest\Laravel\{actingAs, post};
 
@@ -65,4 +65,15 @@ test('should be a create a new question with draft all the time', function () {
         'question' => str_repeat('*', 265) . '?',
         'draft' => true,
     ]);
+});
+
+test('question should be unique', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    Question::factory()->create(['question' => 'Alguma Pergunta?']);
+
+    post(route('question.store'), [
+        'question' => 'Alguma Pergunta?',
+    ])->assertSessionHasErrors(['question' => 'Pergunta já existe!']);
 });

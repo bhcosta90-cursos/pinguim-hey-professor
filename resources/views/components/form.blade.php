@@ -1,12 +1,11 @@
 @props([
     'action',
-    'id' => null,
     'put' => null,
     'patch' => null,
     'delete' => null,
 ])
 
-<form method="POST" action="{{$action}}" id="{{$id}}">
+<form method="POST" action="{{$action}}" {{$attributes}}>
     @csrf
 
     @if($put)

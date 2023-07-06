@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Rules\EndWithQuestionMarkRule;
+use App\Rules\{EndWithQuestionMarkRule, SameQuestionRule};
 use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\View\View;
 
@@ -26,7 +26,7 @@ class QuestionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'question' => ['required', 'min:10', new EndWithQuestionMarkRule()],
+            'question' => ['required', 'min:10', new EndWithQuestionMarkRule(), new SameQuestionRule()],
         ]);
 
         $request->user()->questions()->create([
@@ -55,7 +55,7 @@ class QuestionController extends Controller
         $this->authorize('update', $question);
 
         $request->validate([
-            'question' => ['required', 'min:10', new EndWithQuestionMarkRule()],
+            'question' => ['required', 'min:10', new EndWithQuestionMarkRule(), new SameQuestionRule()],
         ]);
 
         $question->update([

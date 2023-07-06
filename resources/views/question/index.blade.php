@@ -43,7 +43,7 @@
                                     <x-icons.edit />
                                 </a>
 
-                                <x-form :action="route('question.destroy', $question)" delete
+                                <x-form :action="route('question.destroy', $question)" delete onsubmit="return confirm('Tem certeza?')"
                                     onsubmit="return confirm('Tem certeza?')">
                                     <button type="submit" class="hover:underline text-red-500 ml-5">
                                         <x-icons.delete />
