@@ -16,6 +16,7 @@ class QuestionController extends Controller
     {
         return view('question.index', [
             'questions' => $request->user()->questions,
+            'archivedQuestions' => $request->user()->questions()->onlyTrashed()->get(),
         ]);
     }
 
