@@ -35,7 +35,7 @@ test("should paginate the result", function () {
         });
 });
 
-todo('should order by like and unlike, most liked question should be at the top, most unliked questions should be in the bottom', function () {
+test('should order by like and unlike, most liked question should be at the top, most unliked questions should be in the bottom', function () {
     $user = User::factory()->create();
     $secondUser = User::factory()->create();
     $questions = Question::factory(5)->create();
@@ -48,12 +48,11 @@ todo('should order by like and unlike, most liked question should be at the top,
 
     actingAs($user);
     get(route('dashboard'))
-        ->assertViewHas('questions', function ($questions) {
-
+        ->assertViewHas('questions', function ($questions) use ($mostLikedQuestion, $mostUnlikedQuestion) {
             expect($questions)
-                ->first()->id->toBe($questions[2]->id)
+                ->first()->id->toBe($mostLikedQuestion->id)
                 ->and($questions)
-                ->last()->id->toBe($questions[1]->id);
+                ->last()->id->toBe($mostUnlikedQuestion->id);
 
             return true;
         });
