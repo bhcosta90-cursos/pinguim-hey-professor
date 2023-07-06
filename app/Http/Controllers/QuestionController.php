@@ -70,7 +70,7 @@ class QuestionController extends Controller
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('delete', $question);
-        $question->delete();
+        $question->forceDelete();
 
         return back();
     }
