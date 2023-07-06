@@ -24,30 +24,32 @@
                 <x-table.thead>
                     <tr>
                         <x-table.th>Question</x-table.th>
-                        <x-table.th>Actions</x-table.th>
+                        <x-table.th></x-table.th>
                     </tr>
                 </x-table.thead>
                 <tbody>
                 @foreach($questions->where('draft', true) as $question)
                     <x-table.tr>
-                        <x-table.td>{{ $question->question }}</x-table.td>
-                        <x-table.td>
-                            <x-form :action="route('question.destroy', $question)" delete
+                        <x-table.td class='columns-11 px-6 py-4'>{{ $question->question }}</x-table.td>
+                        <x-table.td class='columns-1 px-6 py-4'>
+                            <div class="flex">
+                                <x-form :action="route('question.publish', $question)" put>
+                                    <button type="submit" class="hover:underline text-blue-500">
+                                        <x-icons.publish />
+                                    </button>
+                                </x-form>
+
+                                <a href="{{ route('question.edit', $question)}}" class="hover:underline text-green-500">
+                                    <x-icons.edit />
+                                </a>
+
+                                <x-form :action="route('question.destroy', $question)" delete
                                     onsubmit="return confirm('Tem certeza?')">
-                                <button type="submit" class="hover:underline text-blue-500">
-                                    Deletar
-                                </button>
-                            </x-form>
-
-                            <x-form :action="route('question.publish', $question)" put>
-                                <button type="submit" class="hover:underline text-blue-500">
-                                    Publicar
-                                </button>
-                            </x-form>
-
-                            <a href="{{ route('question.edit', $question)}}" class="hover:underline text-blue-500">
-                                Editar
-                            </a>
+                                    <button type="submit" class="hover:underline text-red-500 ml-5">
+                                        <x-icons.delete />
+                                    </button>
+                                </x-form>
+                            </div>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
@@ -67,25 +69,27 @@
                 <x-table.thead>
                     <tr>
                         <x-table.th>Question</x-table.th>
-                        <x-table.th>Actions</x-table.th>
+                        <x-table.th></x-table.th>
                     </tr>
                 </x-table.thead>
                 <tbody>
                 @foreach($questions->where('draft', false) as $question)
                     <x-table.tr>
-                        <x-table.td>{{ $question->question }}</x-table.td>
-                        <x-table.td>
-                            <x-form :action="route('question.destroy', $question)" delete
-                                    onsubmit="return confirm('Tem certeza?')">
-                                <button type="submit" class="hover:underline text-blue-500">
-                                    Delete
-                                </button>
-                            </x-form>
-                            <x-form :action="route('question.archive', $question)" patch>
-                                <button type="submit" class="hover:underline text-blue-500">
-                                    Archive
-                                </button>
-                            </x-form>
+                        <x-table.td class='columns-11 px-6 py-4'>{{ $question->question }}</x-table.td>
+                        <x-table.td class='columns-1 px-6 py-4'>
+                            <div class="flex">
+                                <x-form :action="route('question.archive', $question)" patch>
+                                    <button type="submit" class="hover:underline text-yellow-500">
+                                        <x-icons.archive />
+                                    </button>
+                                </x-form>
+                                <x-form :action="route('question.destroy', $question)" delete
+                                        onsubmit="return confirm('Tem certeza?')">
+                                    <button type="submit" class="hover:underline text-red-500 ml-5">
+                                        <x-icons.delete />
+                                    </button>
+                                </x-form>
+                            </div>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
