@@ -64,6 +64,26 @@ class QuestionController extends Controller
         return to_route('question.index');
     }
 
+    public function archive(Question $question): RedirectResponse
+    {
+        $this->authorize('archive', $question);
+
+        $question->delete();
+
+        return back();
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $question = Question::withTrashed()->find($id);
+
+        $this->authorize('restore', $question);
+
+        $question->restore();
+
+        return back();
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -9,7 +9,7 @@ use function Pest\Laravel\{
     patch,
 };
 
-todo('should be able to archive a question', function () {
+test('should be able to archive a question', function () {
     $user = User::factory()->create();
     $question = Question::factory()
         ->for($user, 'createdBy')
@@ -27,7 +27,7 @@ todo('should be able to archive a question', function () {
         ->deleted_at->not->toBeNull();
 });
 
-todo('should make sure that only the person who has created the question can archive the question', function () {
+test('should make sure that only the person who has created the question can archive the question', function () {
     $rightUser = User::factory()->create();
     $wrongUser = User::factory()->create();
     $question = Question::factory()->create(['draft' => true, 'created_by' => $rightUser->id]);
@@ -43,7 +43,7 @@ todo('should make sure that only the person who has created the question can arc
         ->assertRedirect();
 });
 
-todo('should be able to restore an archived question', function () {
+test('should be able to restore an archived question', function () {
     $user = User::factory()->create();
     $question = Question::factory()
         ->for($user, 'createdBy')
